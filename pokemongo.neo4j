@@ -1,0 +1,95 @@
+CREATE (ShinjukuGyoen:PokemonSpot {title:'新宿御苑', hasPokemon:'ピカチュウ・ガーディ', nearestStation:'新宿'})
+CREATE (SetagayaKouen:PokemonSpot {title:'世田谷公園', hasPokemon:'イーブイ', nearestStation:'三軒茶屋'})
+CREATE (YoyogiKouen:PokemonSpot {title:'代々木公園', hasPokemon:'カモネギ・サンド', nearestStation:'原宿'})
+CREATE (HibiyaKouen:PokemonSpot {title:'日比谷公園', hasPokemon:'ディグダ', nearestStation:'有楽町'})
+CREATE (MizumotoKouen:PokemonSpot {title:'水元公園', hasPokemon:'パウワウ', nearestStation:'金町'})
+CREATE (OdaibaKouen:PokemonSpot {title:'お台場海浜公園', hasPokemon:'コイル', nearestStation:'台場'})
+CREATE (InogashiraKouen:PokemonSpot {title:'井の頭公園', hasPokemon:'ビリリダマ', nearestStation:'吉祥寺'})
+CREATE (OmiyaKouen:PokemonSpot {title:'大宮公園', hasPokemon:'ルージュラ', nearestStation:'東武大宮公園'})
+CREATE (UenoKouen:PokemonSpot {title:'上野公園', hasPokemon:'エレブー', nearestStation:'上野'})
+CREATE (ShibuyaPS:PokemonSpot {title:'渋谷', hasPokemon:'ポリゴン', nearestStation:'JR渋谷'})
+CREATE (EnoshimaPS:PokemonSpot {title:'江ノ島', hasPokemon:'ラプラス', nearestStation:'江ノ島'})
+CREATE (Shinjuku:Station {title:'JR新宿駅'})
+CREATE (Sangenchaya:Station {title:'東急田園都市線三軒茶屋駅'})
+CREATE (Harajuku:Station {title:'JR原宿駅'})
+CREATE (Yurakucho:Station {title:'JR山手線有楽町駅'})
+CREATE (Kanamachi:Station {title:'JR常磐線金町駅'})
+CREATE (Daiba:Station {title:'ゆりかめも台場駅'})
+CREATE (Kisshoji:Station {title:'JR中央本線吉祥寺駅'})
+CREATE (TobuOmiya:Station {title:'東武大宮公園駅'})
+CREATE (Ueno:Station {title:'JR上野駅'})
+CREATE (Shibuya:Station {title:'渋谷駅'})
+CREATE (Enoshima:Station {title:'江ノ島電鉄江ノ島駅'})
+CREATE
+  (Shinjuku)-[:IN]->(ShinjukuGyoen),
+  (ShinjukuGyoen)-[:OUT]->(Shinjuku),
+  (Sangenchaya)-[:IN]->(SetagayaKouen),
+  (SetagayaKouen)-[:OUT]->(Sangenchaya),
+  (Harajuku)-[:IN]->(YoyogiKouen),
+  (YoyogiKouen)-[:OUT]->(Harajuku),
+  (Yurakucho)-[:IN]->(HibiyaKouen),
+  (HibiyaKouen)-[:OUT]->(Yurakucho),
+  (Kanamachi)-[:IN]->(MizumotoKouen),
+  (MizumotoKouen)-[:OUT]->(Kanamachi),
+  (Daiba)-[:IN]->(OdaibaKouen),
+  (OdaibaKouen)-[:OUT]->(Daiba),
+  (Kisshoji)-[:IN]->(InogashiraKouen),
+  (InogashiraKouen)-[:OUT]->(Kisshoji),
+  (TobuOmiya)-[:IN]->(OmiyaKouen),
+  (OmiyaKouen)-[:OUT]->(TobuOmiya),
+  (Ueno)-[:IN]->(UenoKouen),
+  (UenoKouen)-[:OUT]->(Ueno),
+  (Shibuya)-[:IN]->(ShibuyaPS),
+  (ShibuyaPS)-[:OUT]->(Shibuya),
+  (Enoshima)-[:IN]->(EnoshimaPS),
+  (EnoshimaPS)-[:OUT]->(Enoshima)
+
+CREATE (Fujisawa:Station {title:'藤沢駅'})
+CREATE
+  (Fujisawa)-[:EnoOut {title:'江ノ島電鉄下り'}]->(Enoshima),
+  (Enoshima)-[:EnoIn {title:'江ノ島電鉄上り'}]->(Fujisawa)
+
+CREATE (Yokohama:Station {title:'横浜駅'})
+CREATE
+  (Yokohama)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Fujisawa),
+  (Fujisawa)-[:JRTokaiIn {title:'JR東海道線上り'}]->(Yokohama)
+
+CREATE (Shinagawa:Station {title:'品川駅'})
+CREATE
+  (Yokohama)-[:JRTokaiOut {title:'JR東海道線上り'}]->(Shinagawa),
+  (Shinagawa)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Yokohama),
+  (Yokohama)-[:JRSSLIn {title:'JR湘南新宿ライン上り'}]->(Shibuya),
+  (Shibuya)-[:JRSSLOut {title:'JR湘南新宿ライン下り'}]->(Yokohama),
+  (Shibuya)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Harajuku),
+  (Harajuku)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Shibuya),
+  (Harajuku)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Shinjuku),
+  (Shinjuku)-[:JRYamanoteOut {title:'JR山手線内回り'}]->(Harajuku),
+  (Shibuya)-[:TokyuOut {title:'東急田園都市線下り'}]->(Sangenchaya),
+  (Sangenchaya)-[:TokyuIn {title:'東急田園都市線上り'}]->(Shibuya)
+
+CREATE (Shinbashi:Station {title:'新橋駅'})
+CREATE (Akihabara:Station {title:'秋葉原駅'})
+CREATE
+  (Shinagawa)-[:JRTokaiIn {title:'JR東海道線上り'}]->(Shinbashi),
+  (Shinbashi)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Shinagawa),
+  (Shinbashi)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Yurakucho),
+  (Yurakucho)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Shinbashi),
+  (Shinbashi)-[:YuriOut {title:'ゆりかもめ下り'}]->(Daiba),
+  (Daiba)-[:YuriIn {title:'ゆりかもめ上り'}]->(Shinbashi),
+  (Yurakucho)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Akihabara),
+  (Akihabara)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Yurakucho),
+  (Akihabara)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Ueno),
+  (Ueno)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Yurakucho),
+  (Ueno)-[:JRJobanOut {title:'JR常磐線下り'}]->(Kanamachi),
+  (Kanamachi)-[:JRJobanIn {title:'JR常磐線上り'}]->(Ueno)
+
+CREATE (Omiya:Station {title:'大宮駅'})
+CREATE
+  (Omiya)-[:TobuOut {title:'東武野田線下り'}]->(TobuOmiya),
+  (TobuOmiya)-[:TobuIn {title:'東武野田線上り'}]->(Omiya),
+  (Omiya)-[:JRSaikyoOut {title:'JR埼京線上り'}]->(Shinjuku),
+  (Shinjuku)-[:JRSaikyoIn {title:'JR埼京線下り'}]->(Omiya),
+  (Akihabara)-[:JRSobuWest {title:'JR総武線西行き'}]->(Shinjuku),
+  (Shinjuku)-[:JRSobuEast {title:'JR総武線東行き'}]->(Akihabara),
+  (Shinjuku)-[:JRChuoOut {title:'JR中央本線下り'}]->(Kisshoji),
+  (Kisshoji)-[:JRChuoIn {title:'JR中央本線上り'}]->(Shinjuku)
