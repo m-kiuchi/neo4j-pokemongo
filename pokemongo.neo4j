@@ -13,7 +13,7 @@ CREATE (Shinjuku:Station {title:'JR新宿駅'})
 CREATE (Sangenchaya:Station {title:'東急田園都市線三軒茶屋駅'})
 CREATE (Harajuku:Station {title:'JR原宿駅'})
 CREATE (Yurakucho:Station {title:'JR山手線有楽町駅'})
-CREATE (Kanamachi:Station {title:'JR常磐線金町駅'})
+CREATE (Kanamachi:Station {title:'地下鉄金町駅'})
 CREATE (Daiba:Station {title:'ゆりかめも台場駅'})
 CREATE (Kisshoji:Station {title:'JR中央本線吉祥寺駅'})
 CREATE (TobuOmiya:Station {title:'東武大宮公園駅'})
@@ -21,75 +21,83 @@ CREATE (Ueno:Station {title:'JR上野駅'})
 CREATE (Shibuya:Station {title:'渋谷駅'})
 CREATE (Enoshima:Station {title:'江ノ島電鉄江ノ島駅'})
 CREATE
-  (Shinjuku)-[:IN]->(ShinjukuGyoen),
-  (ShinjukuGyoen)-[:OUT]->(Shinjuku),
-  (Sangenchaya)-[:IN]->(SetagayaKouen),
-  (SetagayaKouen)-[:OUT]->(Sangenchaya),
-  (Harajuku)-[:IN]->(YoyogiKouen),
-  (YoyogiKouen)-[:OUT]->(Harajuku),
-  (Yurakucho)-[:IN]->(HibiyaKouen),
-  (HibiyaKouen)-[:OUT]->(Yurakucho),
-  (Kanamachi)-[:IN]->(MizumotoKouen),
-  (MizumotoKouen)-[:OUT]->(Kanamachi),
-  (Daiba)-[:IN]->(OdaibaKouen),
-  (OdaibaKouen)-[:OUT]->(Daiba),
-  (Kisshoji)-[:IN]->(InogashiraKouen),
-  (InogashiraKouen)-[:OUT]->(Kisshoji),
-  (TobuOmiya)-[:IN]->(OmiyaKouen),
-  (OmiyaKouen)-[:OUT]->(TobuOmiya),
-  (Ueno)-[:IN]->(UenoKouen),
-  (UenoKouen)-[:OUT]->(Ueno),
-  (Shibuya)-[:IN]->(ShibuyaPS),
-  (ShibuyaPS)-[:OUT]->(Shibuya),
-  (Enoshima)-[:IN]->(EnoshimaPS),
-  (EnoshimaPS)-[:OUT]->(Enoshima)
+  (Shinjuku)-[:IN {cost:20}]->(ShinjukuGyoen),
+  (ShinjukuGyoen)-[:OUT {cost:20}]->(Shinjuku),
+  (Sangenchaya)-[:IN {cost:15}]->(SetagayaKouen),
+  (SetagayaKouen)-[:OUT {cost:15}]->(Sangenchaya),
+  (Harajuku)-[:IN {cost:10}]->(YoyogiKouen),
+  (YoyogiKouen)-[:OUT {cost:10}]->(Harajuku),
+  (Yurakucho)-[:IN {cost:10}]->(HibiyaKouen),
+  (HibiyaKouen)-[:OUT {cost:10}]->(Yurakucho),
+  (Kanamachi)-[:IN {cost:30}]->(MizumotoKouen),
+  (MizumotoKouen)-[:OUT {cost:30}]->(Kanamachi),
+  (Daiba)-[:IN {cost:10}]->(OdaibaKouen),
+  (OdaibaKouen)-[:OUT {cost:10}]->(Daiba),
+  (Kisshoji)-[:IN {cost:10}]->(InogashiraKouen),
+  (InogashiraKouen)-[:OUT {cost:10}]->(Kisshoji),
+  (TobuOmiya)-[:IN {cost:10}]->(OmiyaKouen),
+  (OmiyaKouen)-[:OUT {cost:10}]->(TobuOmiya),
+  (Ueno)-[:IN {cost:10}]->(UenoKouen),
+  (UenoKouen)-[:OUT {cost:10}]->(Ueno),
+  (Shibuya)-[:IN {cost:10}]->(ShibuyaPS),
+  (ShibuyaPS)-[:OUT {cost:10}]->(Shibuya),
+  (Enoshima)-[:IN {cost:20}]->(EnoshimaPS),
+  (EnoshimaPS)-[:OUT {cost:20}]->(Enoshima)
 
 CREATE (Fujisawa:Station {title:'藤沢駅'})
 CREATE
-  (Fujisawa)-[:EnoOut {title:'江ノ島電鉄下り'}]->(Enoshima),
-  (Enoshima)-[:EnoIn {title:'江ノ島電鉄上り'}]->(Fujisawa)
+  (Fujisawa)-[:EnoOut {title:'江ノ島電鉄下り', cost:20}]->(Enoshima),
+  (Enoshima)-[:EnoIn {title:'江ノ島電鉄上り', cost:20}]->(Fujisawa)
 
 CREATE (Yokohama:Station {title:'横浜駅'})
 CREATE
-  (Yokohama)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Fujisawa),
-  (Fujisawa)-[:JRTokaiIn {title:'JR東海道線上り'}]->(Yokohama)
+  (Yokohama)-[:JRTokaiOut {title:'JR東海道線下り', cost:30}]->(Fujisawa),
+  (Fujisawa)-[:JRTokaiIn {title:'JR東海道線上り', cost:30}]->(Yokohama)
 
 CREATE (Shinagawa:Station {title:'品川駅'})
 CREATE
-  (Yokohama)-[:JRTokaiOut {title:'JR東海道線上り'}]->(Shinagawa),
-  (Shinagawa)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Yokohama),
-  (Yokohama)-[:JRSSLIn {title:'JR湘南新宿ライン上り'}]->(Shibuya),
-  (Shibuya)-[:JRSSLOut {title:'JR湘南新宿ライン下り'}]->(Yokohama),
-  (Shibuya)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Harajuku),
-  (Harajuku)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Shibuya),
-  (Harajuku)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Shinjuku),
-  (Shinjuku)-[:JRYamanoteOut {title:'JR山手線内回り'}]->(Harajuku),
-  (Shibuya)-[:TokyuOut {title:'東急田園都市線下り'}]->(Sangenchaya),
-  (Sangenchaya)-[:TokyuIn {title:'東急田園都市線上り'}]->(Shibuya)
+  (Yokohama)-[:JRTokaiOut {title:'JR東海道線上り', cost:30}]->(Shinagawa),
+  (Shinagawa)-[:JRTokaiOut {title:'JR東海道線下り', cost:30}]->(Yokohama),
+  (Yokohama)-[:JRSSLIn {title:'JR湘南新宿ライン上り', cost:35}]->(Shibuya),
+  (Shibuya)-[:JRSSLOut {title:'JR湘南新宿ライン下り', cost:35}]->(Yokohama),
+  (Shibuya)-[:JRYamanoteOut {title:'JR山手線外回り', cost:15}]->(Harajuku),
+  (Harajuku)-[:JRYamanoteIn {title:'JR山手線内回り', cost:15}]->(Shibuya),
+  (Harajuku)-[:JRYamanoteOut {title:'JR山手線外回り', cost:15}]->(Shinjuku),
+  (Shinjuku)-[:JRYamanoteOut {title:'JR山手線内回り', cost:15}]->(Harajuku),
+  (Shibuya)-[:TokyuOut {title:'東急田園都市線下り', cost:15}]->(Sangenchaya),
+  (Sangenchaya)-[:TokyuIn {title:'東急田園都市線上り', cost:15}]->(Shibuya)
 
+CREATE (Kitasenju:Station {title:'北千住駅'})
 CREATE (Shinbashi:Station {title:'新橋駅'})
 CREATE (Akihabara:Station {title:'秋葉原駅'})
 CREATE
-  (Shinagawa)-[:JRTokaiIn {title:'JR東海道線上り'}]->(Shinbashi),
-  (Shinbashi)-[:JRTokaiOut {title:'JR東海道線下り'}]->(Shinagawa),
-  (Shinbashi)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Yurakucho),
-  (Yurakucho)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Shinbashi),
-  (Shinbashi)-[:YuriOut {title:'ゆりかもめ下り'}]->(Daiba),
-  (Daiba)-[:YuriIn {title:'ゆりかもめ上り'}]->(Shinbashi),
-  (Yurakucho)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Akihabara),
-  (Akihabara)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Yurakucho),
-  (Akihabara)-[:JRYamanoteIn {title:'JR山手線内回り'}]->(Ueno),
-  (Ueno)-[:JRYamanoteOut {title:'JR山手線外回り'}]->(Yurakucho),
-  (Ueno)-[:JRJobanOut {title:'JR常磐線下り'}]->(Kanamachi),
-  (Kanamachi)-[:JRJobanIn {title:'JR常磐線上り'}]->(Ueno)
+  (Shinagawa)-[:JRTokaiIn {title:'JR東海道線上り', cost:15}]->(Shinbashi),
+  (Shinbashi)-[:JRTokaiOut {title:'JR東海道線下り', cost:15}]->(Shinagawa),
+  (Shinbashi)-[:JRYamanoteIn {title:'JR山手線内回り', cost:15}]->(Yurakucho),
+  (Yurakucho)-[:JRYamanoteOut {title:'JR山手線外回り', cost:15}]->(Shinbashi),
+  (Shinbashi)-[:YuriOut {title:'ゆりかもめ下り', cost:25}]->(Daiba),
+  (Daiba)-[:YuriIn {title:'ゆりかもめ上り', cost:25}]->(Shinbashi),
+  (Yurakucho)-[:JRYamanoteIn {title:'JR山手線内回り', cost:15}]->(Akihabara),
+  (Akihabara)-[:JRYamanoteOut {title:'JR山手線外回り', cost:15}]->(Yurakucho),
+  (Akihabara)-[:JRYamanoteIn {title:'JR山手線内回り', cost:15}]->(Ueno),
+  (Ueno)-[:JRYamanoteOut {title:'JR山手線外回り', cost:15}]->(Akihabara),
+  (Ueno)-[:JRJobanOut {title:'JR常磐線下り', cost:20}]->(Kitasenju),
+  (Kitasenju)-[:JRJobanIn {title:'JR常磐線上り', cost:20}]->(Ueno),
+  (Kitasenju)-[:MetroOut {title:'東京メトロ千代田線下り', cost:20}]->(Kanamachi),
+  (Kanamachi)-[:MetroIn {title:'東京メトロ千代田線上り', cost:20}]->(Kitasenju)
 
 CREATE (Omiya:Station {title:'大宮駅'})
 CREATE
-  (Omiya)-[:TobuOut {title:'東武野田線下り'}]->(TobuOmiya),
-  (TobuOmiya)-[:TobuIn {title:'東武野田線上り'}]->(Omiya),
-  (Omiya)-[:JRSaikyoOut {title:'JR埼京線上り'}]->(Shinjuku),
-  (Shinjuku)-[:JRSaikyoIn {title:'JR埼京線下り'}]->(Omiya),
-  (Akihabara)-[:JRSobuWest {title:'JR総武線西行き'}]->(Shinjuku),
-  (Shinjuku)-[:JRSobuEast {title:'JR総武線東行き'}]->(Akihabara),
-  (Shinjuku)-[:JRChuoOut {title:'JR中央本線下り'}]->(Kisshoji),
-  (Kisshoji)-[:JRChuoIn {title:'JR中央本線上り'}]->(Shinjuku)
+  (Omiya)-[:TobuOut {title:'東武野田線下り', cost:15}]->(TobuOmiya),
+  (TobuOmiya)-[:TobuIn {title:'東武野田線上り', cost:15}]->(Omiya),
+  (Omiya)-[:JRSaikyoOut {title:'JR埼京線上り', cost:40}]->(Shinjuku),
+  (Shinjuku)-[:JRSaikyoIn {title:'JR埼京線下り', cost:40}]->(Omiya),
+  (Akihabara)-[:JRSobuWest {title:'JR総武線西行き', cost:30}]->(Shinjuku),
+  (Shinjuku)-[:JRSobuEast {title:'JR総武線東行き', cost:30}]->(Akihabara),
+  (Shinjuku)-[:JRChuoOut {title:'JR中央本線下り', cost:20}]->(Kisshoji),
+  (Kisshoji)-[:JRChuoIn {title:'JR中央本線上り', cost:20}]->(Shinjuku)
+
+CREATE (StartPoint:Place {title:'クリエーションライン'})
+CREATE
+  (StartPoint)-[:IN {cost:10}]->(Akihabara),
+  (Akihabara)-[:OUT {cost:10}]->(StartPoint)
